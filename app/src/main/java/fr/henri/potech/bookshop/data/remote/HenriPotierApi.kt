@@ -3,7 +3,7 @@ package fr.henri.potech.bookshop.data.remote
 import com.google.gson.GsonBuilder
 import fr.henri.potech.bookshop.data.dto.BookDto
 import fr.henri.potech.bookshop.data.dto.CommercialOffersDto
-import fr.henri.potech.bookshop.data.dto.OfferType.Companion.runtimeTypeAdapterFactory
+import fr.henri.potech.bookshop.data.dto.OfferTypeDto.Companion.runtimeTypeAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET

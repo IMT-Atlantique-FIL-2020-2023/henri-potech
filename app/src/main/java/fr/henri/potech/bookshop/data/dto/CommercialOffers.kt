@@ -4,30 +4,25 @@ import com.google.gson.annotations.SerializedName
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory
 
 data class CommercialOffersDto(
-
-    @SerializedName("offers") var offers: ArrayList<OfferDto> = arrayListOf()
-
+    @SerializedName("offers") var offers: ArrayList<OfferTypeDto> = arrayListOf()
 )
 
 
-data class OfferDto(
-    @SerializedName("type") var type: String,
-)
-
-sealed class OfferType {
-    data class Percentage(@SerializedName("value") val value: Double) : OfferType()
-    data class Minus(@SerializedName("value") val value: Double) : OfferType()
+sealed class OfferTypeDto {
+    data class Percentage(@SerializedName("value") val value: Double) : OfferTypeDto()
+    data class Minus(@SerializedName("value") val value: Double) : OfferTypeDto()
     data class Slice(
         @SerializedName("value") val value: Double,
         @SerializedName("sliceValue") val sliceValue: Double
-    ) : OfferType()
+    ) : OfferTypeDto()
 
     companion object {
-        val runtimeTypeAdapterFactory = RuntimeTypeAdapterFactory
-            .of(OfferType::class.java, "type")
-            .registerSubtype(Percentage::class.java, "percentage")
-            .registerSubtype(Minus::class.java, "minus")
-            .registerSubtype(Slice::class.java, "slice")
+        val runtimeTypeAdapterFactory: RuntimeTypeAdapterFactory<OfferTypeDto> =
+            RuntimeTypeAdapterFactory
+                .of(OfferTypeDto::class.java, "type")
+                .registerSubtype(Percentage::class.java, "percentage")
+                .registerSubtype(Minus::class.java, "minus")
+                .registerSubtype(Slice::class.java, "slice")
     }
 
 }
