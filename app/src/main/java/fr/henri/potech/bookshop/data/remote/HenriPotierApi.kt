@@ -14,17 +14,11 @@ const val BASE_URL = "https://henri-potier.techx.fr/"
 
 interface HenriPotierApi {
     companion object {
-        val client: HenriPotierApi = Retrofit.Builder()
-            .addConverterFactory(
-                GsonConverterFactory.create(
-                    GsonBuilder()
-                        .registerTypeAdapterFactory(runtimeTypeAdapterFactory)
-                        .create()
-                )
+        val client: HenriPotierApi = Retrofit.Builder().addConverterFactory(
+            GsonConverterFactory.create(
+                GsonBuilder().registerTypeAdapterFactory(runtimeTypeAdapterFactory).create()
             )
-            .baseUrl(BASE_URL)
-            .build()
-            .create(HenriPotierApi::class.java)
+        ).baseUrl(BASE_URL).build().create(HenriPotierApi::class.java)
     }
 
     @GET("books")
@@ -36,7 +30,11 @@ interface HenriPotierApi {
     ): CommercialOffersDto
 }
 
+/**
+ * This class is used to join a list of strings with a comma
+ * It is used to pass a list of isbns to the API
+ * toString will be called by retrofit
+ */
 class ListToStringJoin(val list: List<String>) {
     override fun toString() = list.joinToString(",")
-
 }
