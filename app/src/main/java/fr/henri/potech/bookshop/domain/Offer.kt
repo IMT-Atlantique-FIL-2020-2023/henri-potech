@@ -1,7 +1,9 @@
 package fr.henri.potech.bookshop.domain
 
+import java.math.BigDecimal
+
 sealed interface Offer {
-    fun apply(total: Double): Double
+    fun apply(total: BigDecimal): BigDecimal
 }
 
 /**
@@ -9,9 +11,9 @@ sealed interface Offer {
  */
 data class Percentage(
     val value: Double
-) : Offer {
-    override fun apply(total: Double): Double {
-        return total * (1 - this.value)
+): Offer {
+    override fun apply(total: BigDecimal): BigDecimal {
+        return total * BigDecimal(1 - this.value)
     }
 }
 
@@ -20,9 +22,9 @@ data class Percentage(
  */
 data class Minus(
     val value: Double
-) : Offer {
-    override fun apply(total: Double): Double {
-        return total - this.value
+): Offer {
+    override fun apply(total: BigDecimal): BigDecimal {
+        return total - BigDecimal(this.value)
     }
 }
 
@@ -30,11 +32,12 @@ data class Minus(
  * Reduces the total price when the total exceeds `sliceValue`.
  */
 data class Slice(
-    val sliceValue: Double, val value: Double
-) : Offer {
-    override fun apply(total: Double): Double {
-        return if (total > this.sliceValue) {
-            total - this.value
+    val sliceValue: Double,
+    val value: Double
+): Offer {
+    override fun apply(total: BigDecimal): BigDecimal {
+        return if (total > BigDecimal(this.sliceValue)) {
+            total - BigDecimal(this.value)
         } else {
             total
         }

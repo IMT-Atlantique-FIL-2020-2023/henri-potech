@@ -3,16 +3,17 @@ package fr.henri.potech.bookshop.domain
 import fr.henri.potech.bookshop.data.dto.OfferTypeDTO
 import fr.henri.potech.bookshop.data.remote.HenriPotierApi
 import fr.henri.potech.bookshop.data.remote.ListToStringJoin
+import java.math.BigDecimal
 
 data class Cart(
     var books: List<Book>,
 
     ) {
-    fun total(): Double {
+    fun total(): BigDecimal {
         return books.sumOf { it.price }
     }
 
-    suspend fun computeTotalWithOffer(): Double {
+    suspend fun computeTotalWithOffer(): BigDecimal {
         val commercialOffers =
             HenriPotierApi.client.getCommercialOffers(ListToStringJoin(books.map { it.isbn }))
         val availableOffers = commercialOffers.offers.map { offer ->
