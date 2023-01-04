@@ -3,23 +3,23 @@ package fr.henri.potech.bookshop.data.dto
 import com.google.gson.annotations.SerializedName
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory
 
-data class CommercialOffersDto(
-    @SerializedName("offers") var offers: ArrayList<OfferTypeDto> = arrayListOf()
+data class CommercialOffersDTO(
+    @SerializedName("offers") var offers: ArrayList<OfferTypeDTO> = arrayListOf()
 )
 
 
-sealed class OfferTypeDto {
-    data class Percentage(@SerializedName("value") val value: Double) : OfferTypeDto()
-    data class Minus(@SerializedName("value") val value: Double) : OfferTypeDto()
+sealed class OfferTypeDTO {
+    data class Percentage(@SerializedName("value") val value: Double) : OfferTypeDTO()
+    data class Minus(@SerializedName("value") val value: Double) : OfferTypeDTO()
     data class Slice(
         @SerializedName("value") val value: Double,
         @SerializedName("sliceValue") val sliceValue: Double
-    ) : OfferTypeDto()
+    ) : OfferTypeDTO()
 
     companion object {
-        val runtimeTypeAdapterFactory: RuntimeTypeAdapterFactory<OfferTypeDto> =
+        val runtimeTypeAdapterFactory: RuntimeTypeAdapterFactory<OfferTypeDTO> =
             RuntimeTypeAdapterFactory
-                .of(OfferTypeDto::class.java, "type")
+                .of(OfferTypeDTO::class.java, "type")
                 .registerSubtype(Percentage::class.java, "percentage")
                 .registerSubtype(Minus::class.java, "minus")
                 .registerSubtype(Slice::class.java, "slice")

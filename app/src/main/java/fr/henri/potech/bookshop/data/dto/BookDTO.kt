@@ -7,14 +7,14 @@ import java.net.URL
 
 
 data class BookDTO(
-    @SerializedName("isbn") var isbn: String,
-    @SerializedName("title") var title: String,
-    @SerializedName("price") var price: Double,
-    @SerializedName("cover") var cover: String,
-    @SerializedName("synopsis") var synopsis: ArrayList<String> = arrayListOf()
+    @SerializedName("isbn") val isbn: String,
+    @SerializedName("title") val title: String,
+    @SerializedName("price") val price: Double,
+    @SerializedName("cover") val cover: String,
+    @SerializedName("synopsis") val synopsis: ArrayList<String> = arrayListOf()
 )
 
-fun Book.from(dto: BookDTO): Book {
+fun Book.Companion.from(dto: BookDTO): Book {
     return Book(
         URL(dto.cover),
         dto.title,

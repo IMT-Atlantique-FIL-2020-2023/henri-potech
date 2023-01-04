@@ -2,8 +2,8 @@ package fr.henri.potech.bookshop.data.remote
 
 import com.google.gson.GsonBuilder
 import fr.henri.potech.bookshop.data.dto.BookDTO
-import fr.henri.potech.bookshop.data.dto.CommercialOffersDto
-import fr.henri.potech.bookshop.data.dto.OfferTypeDto.Companion.runtimeTypeAdapterFactory
+import fr.henri.potech.bookshop.data.dto.CommercialOffersDTO
+import fr.henri.potech.bookshop.data.dto.OfferTypeDTO.Companion.runtimeTypeAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -27,7 +27,7 @@ interface HenriPotierApi {
     @GET("/books/{isbns}/commercialOffers")
     suspend fun getCommercialOffers(
         @Path("isbns", encoded = true) isbns: ListToStringJoin
-    ): CommercialOffersDto
+    ): CommercialOffersDTO
 }
 
 /**
