@@ -7,11 +7,9 @@ import java.math.BigDecimal
 
 data class Cart(
     var books: List<Book>,
-
-    ) {
-    fun total(): BigDecimal {
-        return books.sumOf { it.price }
-    }
+) {
+    private val total: BigDecimal
+        get() { return books.sumOf { it.price } }
 
     suspend fun computeTotalWithOffer(): BigDecimal {
         val commercialOffers =
@@ -24,8 +22,6 @@ data class Cart(
             }
         }
 
-        return availableOffers.map { it.apply(total()) }.minOrNull() ?: total()
-
+        return availableOffers.map { it.apply(total) }.minOrNull() ?: total
     }
-
 }

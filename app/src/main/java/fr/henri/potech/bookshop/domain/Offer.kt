@@ -10,10 +10,10 @@ sealed interface Offer {
  * Reduces the total price by a fixed percentage.
  */
 data class Percentage(
-    val value: Double
-): Offer {
+    val value: BigDecimal
+) : Offer {
     override fun apply(total: BigDecimal): BigDecimal {
-        return total * BigDecimal(1 - this.value)
+        return total * (BigDecimal(1) - this.value)
     }
 }
 
@@ -21,10 +21,10 @@ data class Percentage(
  * Reduces the total price by a fixed amount.
  */
 data class Minus(
-    val value: Double
-): Offer {
+    val value: BigDecimal
+) : Offer {
     override fun apply(total: BigDecimal): BigDecimal {
-        return total - BigDecimal(this.value)
+        return total - this.value
     }
 }
 
@@ -32,12 +32,11 @@ data class Minus(
  * Reduces the total price when the total exceeds `sliceValue`.
  */
 data class Slice(
-    val sliceValue: Double,
-    val value: Double
-): Offer {
+    val sliceValue: BigDecimal, val value: BigDecimal
+) : Offer {
     override fun apply(total: BigDecimal): BigDecimal {
-        return if (total > BigDecimal(this.sliceValue)) {
-            total - BigDecimal(this.value)
+        return if (total > this.sliceValue) {
+            total - this.value
         } else {
             total
         }
