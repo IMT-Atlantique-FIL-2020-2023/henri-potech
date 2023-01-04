@@ -7,7 +7,8 @@ package domain {
     + isbn: String
     + synopsis: String
     + price: Double
-    + Book(BookDTO)
+'    + Book(BookDTO)
+    + {static} from(BookDTO): Book
   }
 
   class Library {
@@ -16,7 +17,7 @@ package domain {
   Library "0..*" *-- Book
 
   interface Offer {
-    + apply(Book)
+    + apply(Double): Double
   }
   '{"type":"percentage","value":4}
   class Percentage implements Offer {
@@ -45,13 +46,13 @@ package domain {
 package viewmodel {
   class viewmodel.Discount {
     + reducedPrice: Double
-    + DiscountLabel: String
+    + discountLabel: String
   }
   class BookCellViewModel {
     + coverUrl: URL
     + title: String
     + basePrice: Double
-    + Discount: Discount?
+    + discount: Discount?
     + BookCellViewModel(model.Book, model.Discount)
   }
   BookCellViewModel --> Discount
