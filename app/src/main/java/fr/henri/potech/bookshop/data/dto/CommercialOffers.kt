@@ -2,6 +2,7 @@ package fr.henri.potech.bookshop.data.dto
 
 import com.google.gson.annotations.SerializedName
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory
+import java.math.BigDecimal
 
 data class CommercialOffersDTO(
     @SerializedName("offers") var offers: ArrayList<OfferTypeDTO> = arrayListOf()
@@ -9,11 +10,11 @@ data class CommercialOffersDTO(
 
 
 sealed class OfferTypeDTO {
-    data class Percentage(@SerializedName("value") val value: Double) : OfferTypeDTO()
-    data class Minus(@SerializedName("value") val value: Double) : OfferTypeDTO()
+    data class Percentage(@SerializedName("value") val value: BigDecimal) : OfferTypeDTO()
+    data class Minus(@SerializedName("value") val value: BigDecimal) : OfferTypeDTO()
     data class Slice(
-        @SerializedName("value") val value: Double,
-        @SerializedName("sliceValue") val sliceValue: Double
+        @SerializedName("value") val value: BigDecimal,
+        @SerializedName("sliceValue") val sliceValue: BigDecimal
     ) : OfferTypeDTO()
 
     companion object {

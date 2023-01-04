@@ -10,5 +10,5 @@ data class Book(
     val synopsis: String,
     val price: BigDecimal
 ) {
-    companion object {}
+    companion object
 }

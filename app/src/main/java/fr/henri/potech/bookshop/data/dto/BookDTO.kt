@@ -9,7 +9,7 @@ import java.net.URL
 data class BookDTO(
     @SerializedName("isbn") val isbn: String,
     @SerializedName("title") val title: String,
-    @SerializedName("price") val price: Double,
+    @SerializedName("price") val price: BigDecimal,
     @SerializedName("cover") val cover: String,
     @SerializedName("synopsis") val synopsis: ArrayList<String> = arrayListOf()
 )
@@ -20,6 +20,6 @@ fun Book.Companion.from(dto: BookDTO): Book {
         dto.title,
         dto.isbn,
         dto.synopsis.joinToString("\n"),
-        BigDecimal(dto.price)
+        dto.price
     )
 }
