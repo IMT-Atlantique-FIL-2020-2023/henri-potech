@@ -1,5 +1,6 @@
 package fr.henri.potech.bookshop.domain
 
+import java.math.BigDecimal
 import java.net.URL
 
 data class Book(
@@ -7,7 +8,7 @@ data class Book(
     val title: String,
     val isbn: String,
     val synopsis: String,
-    val price: Double
+    val price: BigDecimal
 ) {
     companion object {}
 }
