@@ -9,4 +9,6 @@ data class Book(
     val isbn: String,
     val synopsis: String,
     val price: BigDecimal
-)
+) {
+    companion object {}
+}
