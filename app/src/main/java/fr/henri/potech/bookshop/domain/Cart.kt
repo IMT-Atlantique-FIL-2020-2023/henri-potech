@@ -1,6 +1,6 @@
 package fr.henri.potech.bookshop.domain
 
-import fr.henri.potech.bookshop.data.dto.OfferTypeDTO
+import fr.henri.potech.bookshop.data.remote.dto.OfferTypeDTO
 import fr.henri.potech.bookshop.data.remote.HenriPotierApi
 import fr.henri.potech.bookshop.data.remote.ListToStringJoin
 import java.math.BigDecimal

@@ -13,7 +13,10 @@ import androidx.compose.ui.unit.dp
 import java.math.BigDecimal
 
 @Composable
-fun BookGrid(books: List<BookCardState>) {
+fun BookGrid(
+    books: List<BookCardState>,
+    onBookTapped: (bookISBN: String) -> Unit,
+) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 128.dp),
         contentPadding = PaddingValues(4.dp),

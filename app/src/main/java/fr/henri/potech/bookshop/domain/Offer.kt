@@ -29,10 +29,11 @@ data class Minus(
 }
 
 /**
- * Reduces the total price when the total exceeds `sliceValue`.
+ * Reduces the total price when the total exceeds [sliceValue].
  */
 data class Slice(
-    val sliceValue: BigDecimal, val value: BigDecimal
+    val sliceValue: BigDecimal,
+    val value: BigDecimal
 ) : Offer {
     override fun apply(total: BigDecimal): BigDecimal {
         return if (total > this.sliceValue) {

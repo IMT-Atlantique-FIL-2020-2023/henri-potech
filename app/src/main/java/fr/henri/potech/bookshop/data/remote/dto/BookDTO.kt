@@ -1,4 +1,4 @@
-package fr.henri.potech.bookshop.data.dto
+package fr.henri.potech.bookshop.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 import fr.henri.potech.bookshop.domain.Book
