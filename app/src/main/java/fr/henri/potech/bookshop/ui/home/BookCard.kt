@@ -23,7 +23,7 @@ fun BookCard(
             .clickable { onClick(book.isbn) },
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        BookCover()
+        BookCover(url = book.coverUrl)
         Text(
             text = book.title,
             fontSize = 12.sp,

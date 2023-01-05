@@ -4,12 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import fr.henri.potech.bookshop.ui.home.BookCardState
-import fr.henri.potech.bookshop.ui.home.BookListActivity
+import fr.henri.potech.bookshop.ui.home.Home
 import fr.henri.potech.bookshop.ui.theme.BookShopTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
-
 
 
 @Composable
@@ -28,6 +27,6 @@ fun HenriPotechApp() {
 //    }
 
     BookShopTheme {
-        BookListActivity()
+        Home()
     }
 }
