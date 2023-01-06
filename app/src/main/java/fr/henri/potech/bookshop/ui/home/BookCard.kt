@@ -2,17 +2,16 @@ package fr.henri.potech.bookshop.ui.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fr.henri.potech.bookshop.domain.Book
 import fr.henri.potech.bookshop.ui.BookCover
 import java.math.BigDecimal
+import java.net.URL
 
 @Composable
 fun BookCard(
@@ -29,7 +28,9 @@ fun BookCard(
                 .padding(4.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-            BookCover()
+            BookCover(
+                url = state.coverUrl,
+            )
             Text(
                 text = state.title,
                 fontSize = 12.sp,
@@ -47,6 +48,7 @@ fun BookCard(
 
 data class BookCardState(
     val isbn: String,
+    val coverUrl: URL,
     val title: String,
     val price: BigDecimal
 ) {
@@ -54,6 +56,7 @@ data class BookCardState(
         fun from(book: Book) : BookCardState {
             return BookCardState(
                 isbn = book.isbn,
+                coverUrl = book.coverUrl,
                 title = book.title,
                 price = book.price,
             )

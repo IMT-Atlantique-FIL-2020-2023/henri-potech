@@ -1,7 +1,6 @@
 package fr.henri.potech.bookshop.ui.cart
 
 import androidx.compose.animation.*
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -9,15 +8,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import fr.henri.potech.bookshop.domain.Book
 import fr.henri.potech.bookshop.domain.Cart
+import fr.henri.potech.bookshop.ui.BookCover
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
@@ -149,13 +147,7 @@ fun CartItem(book: Book) {
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
         ) {
-            AsyncImage(
-                model = book.coverUrl.toString(),
-                modifier = Modifier
-                    .size(30.dp, 40.dp)
-                    .background(Color.Gray, shape = RectangleShape),
-                contentDescription = "Book cover with Harry pot de fleur"
-            )
+            BookCover(url = book.coverUrl, modifier = Modifier.height(40.dp))
             Text(
                 text = book.title,
                 overflow = TextOverflow.Ellipsis,

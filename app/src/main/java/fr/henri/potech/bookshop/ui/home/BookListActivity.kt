@@ -6,6 +6,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import java.math.BigDecimal
+import java.net.URL
 
 //class BookListActivity : ComponentActivity() {
 //    private lateinit var viewModel: BookListViewModel
@@ -34,6 +35,7 @@ fun BookList() {
         .map { i ->
             BookCardState(
                 isbn = "$i",
+                coverUrl = URL("https://firebasestorage.googleapis.com/v0/b/henri-potier.appspot.com/o/hp1.jpg?alt=media"),
                 title = "Title $i",
                 price = BigDecimal(10 * i % 40 + 2),
             )
