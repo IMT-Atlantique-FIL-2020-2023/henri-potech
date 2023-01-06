@@ -15,7 +15,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.henri.potech.bookshop.domain.Book
 import fr.henri.potech.bookshop.domain.Cart
-import fr.henri.potech.bookshop.ui.BookCover
+import fr.henri.potech.bookshop.ui.components.BookCover
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 

@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fr.henri.potech.bookshop.R
 import fr.henri.potech.bookshop.domain.Book
-import fr.henri.potech.bookshop.ui.BookCover
+import fr.henri.potech.bookshop.ui.components.BookCover
 import fr.henri.potech.bookshop.ui.theme.BookShopTheme
 import java.math.BigDecimal
 import java.net.URL
@@ -148,7 +148,7 @@ data class BookDetailState(
     val synopsis: String,
 ) {
     companion object {
-        fun from(book: Book) : BookDetailState {
+        fun from(book: Book): BookDetailState {
             return BookDetailState(
                 isbn = book.isbn,
                 coverUrl = book.coverUrl,

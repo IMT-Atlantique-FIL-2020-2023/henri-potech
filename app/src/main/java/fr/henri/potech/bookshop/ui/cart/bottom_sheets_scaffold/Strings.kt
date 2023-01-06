@@ -19,13 +19,13 @@ package fr.henri.potech.bookshop.ui.cart.bottom_sheets_scaffold
  */
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.R
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.runtime.Immutable
 
 @Immutable
-@kotlin.jvm.JvmInline
+@JvmInline
 value class Strings private constructor(@Suppress("unused") private val value: Int) {
     companion object {
         val NavigationMenu = Strings(0)

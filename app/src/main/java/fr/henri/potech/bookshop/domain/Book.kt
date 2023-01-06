@@ -9,7 +9,10 @@ data class Book(
     val isbn: String,
     val synopsis: String,
     val price: BigDecimal,
-    val uuid: String = isbn + Math.random().toString()
+    /**
+     * Unique ID used by recycler views.
+     */
+    val uuid: String = isbn + Math.random().toString(),
 ) {
     companion object
 }

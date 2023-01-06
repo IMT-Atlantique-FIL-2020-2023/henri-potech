@@ -1,7 +1,6 @@
 package fr.henri.potech.bookshop.domain
 
 import fr.henri.potech.bookshop.data.remote.HenriPotierApi
-import java.math.BigDecimal
 import java.net.URL
 
 data class Library(val books: List<Book>) {

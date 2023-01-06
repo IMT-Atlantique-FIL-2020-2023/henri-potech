@@ -14,6 +14,7 @@ import java.net.URL
 
 class CartViewModel : ViewModel() {
     val cart = MutableStateFlow(Cart())
+
     init {
         viewModelScope.launch {
             for (i in 1..10) {
@@ -32,6 +33,7 @@ class CartViewModel : ViewModel() {
             }
         }
     }
+
     companion object {
         private lateinit var instance: CartViewModel
 

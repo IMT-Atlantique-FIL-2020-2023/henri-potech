@@ -1,4 +1,4 @@
-package fr.henri.potech.bookshop.ui
+package fr.henri.potech.bookshop.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.aspectRatio
@@ -23,7 +23,7 @@ fun BookCover(
     AsyncImage(
         model = url.toString(),
         modifier = modifier
-            .aspectRatio(21F/29.7F)
+            .aspectRatio(21F / 29.7F)
             .background(Color.Gray, shape)
             .clip(shape),
         contentDescription = "Book cover"
@@ -35,7 +35,9 @@ fun BookCover(
 fun Preview() {
     BookCover(
         url = URL("https://firebasestorage.googleapis.com/v0/b/henri-potier.appspot.com/o/hp1.jpg?alt=media"),
-        modifier = Modifier.height(64.dp).padding(8.dp),
+        modifier = Modifier
+            .height(64.dp)
+            .padding(8.dp),
     )
 }
 
@@ -44,6 +46,8 @@ fun Preview() {
 fun Preview2() {
     BookCover(
         url = URL("https://firebasestorage.googleapis.com/v0/b/henri-potier.appspot.com/o/hp1.jpg?alt=media"),
-        modifier = Modifier.height(200.dp).padding(8.dp),
+        modifier = Modifier
+            .height(200.dp)
+            .padding(8.dp),
     )
 }
