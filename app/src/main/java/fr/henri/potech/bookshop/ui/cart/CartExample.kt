@@ -32,7 +32,9 @@ class CartExample : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     BookShopTheme {
-        BottomCartSheetScaffold()
+        BottomCartSheetScaffold {
+
+        }
     }
 }
 

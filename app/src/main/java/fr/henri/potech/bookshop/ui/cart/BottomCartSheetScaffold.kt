@@ -17,42 +17,42 @@ import fr.henri.potech.bookshop.ui.cart.bottom_sheets_scaffold.rememberBottomShe
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomCartSheetScaffold() {
-        val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-            bottomSheetState = rememberBottomSheetState(
-                initialValue = BottomSheetValue.Collapsed
-            )
+fun BottomCartSheetScaffold(content: @Composable (PaddingValues) -> Unit) {
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = rememberBottomSheetState(
+            initialValue = BottomSheetValue.Collapsed
         )
-        BottomSheetScaffold(
-            sheetShape = RoundedCornerShape(
-                topStart = 28.0.dp, topEnd = 28.0.dp, bottomEnd = 0.0.dp, bottomStart = 0.0.dp
-            ),
-            sheetPeekHeight = 80.dp,
-            sheetBackgroundColor = MaterialTheme.colorScheme.surfaceVariant,
-            sheetContent = {
-                // The content you want to show in your bottom sheet
-                Column(
+    )
+    BottomSheetScaffold(
+        sheetShape = RoundedCornerShape(
+            topStart = 28.0.dp, topEnd = 28.0.dp, bottomEnd = 0.0.dp, bottomStart = 0.0.dp
+        ),
+        sheetPeekHeight = 80.dp,
+        sheetBackgroundColor = MaterialTheme.colorScheme.surfaceVariant,
+        sheetContent = {
+            // The content you want to show in your bottom sheet
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentSize(Alignment.Center)
+                    .padding(top = 5.dp), horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentSize(Alignment.Center)
-                        .padding(top = 5.dp), horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(40.dp, 3.dp)
-                            .border(
-                                width = 2.dp, color = Color.LightGray, shape = RoundedCornerShape(5.dp)
-                            )
-                    )
-                    BottomSheetContent()
-                }
+                        .size(40.dp, 3.dp)
+                        .border(
+                            width = 2.dp, color = Color.LightGray, shape = RoundedCornerShape(5.dp)
+                        )
+                )
+                BottomSheetContent()
+            }
 
-            },
+        },
 
-            scaffoldState = bottomSheetScaffoldState
-        ) {
-            // The content you want to show in your screen
-        }
+        scaffoldState = bottomSheetScaffoldState
+    ) {
+        content(it)
+    }
 }
 
 @Composable
