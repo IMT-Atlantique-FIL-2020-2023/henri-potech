@@ -1,23 +1,22 @@
 package fr.henri.potech.bookshop.ui.home
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import java.math.BigDecimal
+import androidx.lifecycle.liveData
+import fr.henri.potech.bookshop.domain.Book
+import fr.henri.potech.bookshop.domain.Library
 
-//data class BookListViewModel(
-//    var books: List<BookCardState> = (1..10).toList()
-//        .map { i -> BookCardState("Title $i", BigDecimal(10 * i % 40 + 2)) }
-//) : ViewModel() {
-//    init {
-//        // TODO: Call API to load books
-//        viewModelScope.launch {
-//            println("Faking network call…")
-//            delay(1000L) // delay for 1 second (1000 milliseconds)
-//            books = (1..50).toList()
-//                .map { i -> BookCardState("Title $i", BigDecimal(10 * i % 40 + 2)) }
-//            println("Books loaded")
-//        }
-//    }
-//}
+
+class BookListViewModel : ViewModel() {
+    val isLoading = MutableLiveData<Boolean>()
+    val books: LiveData<Result<List<Book>>> = liveData {
+        isLoading.value = true
+        try {
+            emit(Result.success(Library.fetchBooks().books))
+        } catch (ioException: Exception) {
+            emit(Result.failure(ioException))
+        }
+        isLoading.value = false
+    }
+}

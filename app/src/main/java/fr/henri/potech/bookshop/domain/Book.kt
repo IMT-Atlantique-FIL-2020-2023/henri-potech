@@ -8,7 +8,8 @@ data class Book(
     val title: String,
     val isbn: String,
     val synopsis: String,
-    val price: BigDecimal
+    val price: BigDecimal,
+    val uuid: String = isbn + Math.random().toString()
 ) {
     companion object
 }

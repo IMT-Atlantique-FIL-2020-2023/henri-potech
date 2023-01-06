@@ -6,22 +6,28 @@ import fr.henri.potech.bookshop.data.remote.ListToStringJoin
 import java.math.BigDecimal
 
 data class Cart(
-    var books: List<Book>,
+    val books: List<Book> = listOf(),
 ) {
-    private val total: BigDecimal
-        get() { return books.sumOf { it.price } }
+    val total: BigDecimal
+        get() {
+            return books.sumOf { it.price }
+        }
 
-    suspend fun computeTotalWithOffer(): BigDecimal {
+    fun add(book: Book): Cart {
+        return copy(books = books + book)
+    }
+
+    suspend fun computeTotalWithOffer(): Pair<BigDecimal, String> {
         val commercialOffers =
             HenriPotierApi.client.getCommercialOffers(ListToStringJoin(books.map { it.isbn }))
         val availableOffers = commercialOffers.offers.map { offer ->
             when (offer) {
-                is OfferTypeDTO.Percentage -> Percentage(offer.value)
+                is OfferTypeDTO.Percentage -> Percentage(offer.value.divide(BigDecimal(100)))
                 is OfferTypeDTO.Minus -> Minus(offer.value)
                 is OfferTypeDTO.Slice -> Slice(offer.sliceValue, offer.value)
             }
         }
-
-        return availableOffers.map { it.apply(total) }.minOrNull() ?: total
+        return availableOffers.map { Pair(it.apply(total), it.javaClass.name) }
+            .minByOrNull { it.first }!!
     }
 }
