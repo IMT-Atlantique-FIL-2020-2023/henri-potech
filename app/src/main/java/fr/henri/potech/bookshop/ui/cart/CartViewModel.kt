@@ -1,5 +1,6 @@
 package fr.henri.potech.bookshop.ui.cart
 
+import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import fr.henri.potech.bookshop.domain.Book
@@ -29,6 +30,15 @@ class CartViewModel : ViewModel() {
                     )
                 }
             }
+        }
+    }
+    companion object {
+        private lateinit var instance: CartViewModel
+
+        @MainThread
+        fun getInstance(): CartViewModel {
+            instance = if (::instance.isInitialized) instance else CartViewModel()
+            return instance
         }
     }
 }
