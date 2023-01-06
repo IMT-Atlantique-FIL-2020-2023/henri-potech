@@ -16,12 +16,12 @@ data class Cart(
             HenriPotierApi.client.getCommercialOffers(ListToStringJoin(books.map { it.isbn }))
         val availableOffers = commercialOffers.offers.map { offer ->
             when (offer) {
-                is OfferTypeDTO.Percentage -> Percentage(offer.value)
-                is OfferTypeDTO.Minus -> Minus(offer.value)
-                is OfferTypeDTO.Slice -> Slice(offer.sliceValue, offer.value)
+                is OfferTypeDTO.Percentage -> Percentage(value = offer.value)
+                is OfferTypeDTO.Minus -> Minus(value = offer.value)
+                is OfferTypeDTO.Slice -> Slice(sliceValue = offer.sliceValue, value = offer.value)
             }
         }
 
-        return availableOffers.map { it.apply(total) }.minOrNull() ?: total
+        return availableOffers.minOfOrNull { it.apply(total) } ?: total
     }
 }
