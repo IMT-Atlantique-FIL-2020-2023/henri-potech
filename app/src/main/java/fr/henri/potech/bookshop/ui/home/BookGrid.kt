@@ -7,15 +7,13 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import java.math.BigDecimal
-import java.net.URL
+import fr.henri.potech.bookshop.domain.Book
 
 @Composable
 fun BookGrid(
-    cardStates: List<BookCardState>,
-    onClick: (String) -> Unit = {},
+    books: List<Book>,
+    onClick: (Book) -> Unit = {},
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 128.dp),
@@ -23,9 +21,9 @@ fun BookGrid(
 //        contentPadding = PaddingValues(4.dp),
 //        horizontalArrangement = Arrangement.SpaceEvenly,
     ) {
-        items(cardStates) { cardState ->
+        items(books) { book ->
             BookCard(
-                state = cardState,
+                book,
                 modifier = Modifier
                     .padding(4.dp)
                     .widthIn(max = 200.dp),
@@ -33,19 +31,4 @@ fun BookGrid(
             )
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun BookGridPreview() {
-    val books = (1..50).toList()
-        .map { i ->
-            BookCardState(
-                isbn = "$i",
-                coverUrl = URL("https://firebasestorage.googleapis.com/v0/b/henri-potier.appspot.com/o/hp1.jpg?alt=media"),
-                title = "Title $i",
-                price = BigDecimal(10 * i % 40 + 2),
-            )
-        }
-    BookGrid(books)
 }

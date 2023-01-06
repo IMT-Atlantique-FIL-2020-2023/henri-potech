@@ -19,32 +19,38 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fr.henri.potech.bookshop.R
 import fr.henri.potech.bookshop.domain.Book
+import fr.henri.potech.bookshop.ui.cart.BottomCartSheetScaffold
+import fr.henri.potech.bookshop.ui.cart.CartViewModel
 import fr.henri.potech.bookshop.ui.components.BookCover
 import fr.henri.potech.bookshop.ui.theme.BookShopTheme
 import java.math.BigDecimal
 import java.net.URL
 
-data class BookDetailActivity(
-    val state: BookDetailState,
+class BookDetailActivity(
 ) : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BookShopTheme {
-                BookDetailScreen(state)
+
+            this.intent?.extras?.getParcelable<Book>("book")?.let { book ->
+                BookShopTheme {
+                    BookDetailScreen(book)
+                }
             }
         }
     }
 }
 
+
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
-fun BookDetailScreen(state: BookDetailState) {
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text(stringResource(R.string.title_activity_book_detail)) },
+fun BookDetailScreen(book: Book, cartModel: CartViewModel = CartViewModel.getInstance()) {
+    BottomCartSheetScaffold {
+        Scaffold(
+            topBar = {
+                CenterAlignedTopAppBar(
+                    title = { Text(stringResource(R.string.title_activity_book_detail)) },
 //                actions = {
 //                    IconButton(
 //                        onClick = {},
@@ -55,18 +61,22 @@ fun BookDetailScreen(state: BookDetailState) {
 //                        )
 //                    }
 //                },
-            )
-        },
-    ) { innerPadding ->
-        Box(Modifier.padding(innerPadding)) {
-            BookDetail(state)
+                )
+            },
+        ) { innerPadding ->
+            Box(Modifier.padding(innerPadding)) {
+                BookDetail(
+                    book
+                ) { cartModel.addToCart(book) }
+            }
         }
     }
+
 }
 
 @Composable
 fun BookDetail(
-    state: BookDetailState,
+    book: Book,
     addToCart: (isbn: String) -> Unit = {}
 ) {
     Column(
@@ -82,24 +92,24 @@ fun BookDetail(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             BookCover(
-                url = state.coverUrl,
+                url = book.coverUrl,
                 modifier = Modifier
                     .height(256.dp),
             )
             Text(
-                text = state.title,
+                text = book.title,
                 fontSize = 18.sp,
                 lineHeight = 20.sp,
                 fontWeight = FontWeight.Bold,
             )
             Text(
-                text = "ISBN : ${state.isbn}",
+                text = "ISBN : ${book.isbn}",
                 fontSize = 14.sp,
                 lineHeight = 16.sp,
                 color = Color.Gray,
             )
             Text(
-                text = "${state.price} €",
+                text = "${book.price} €",
                 fontSize = 14.sp,
                 lineHeight = 16.sp,
             )
@@ -109,7 +119,7 @@ fun BookDetail(
             contentAlignment = Alignment.Center
         ) {
             Button(
-                onClick = { addToCart(state.isbn) },
+                onClick = { addToCart(book.isbn) },
                 contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
             ) {
                 Icon(
@@ -132,7 +142,7 @@ fun BookDetail(
                 fontWeight = FontWeight.Bold,
             )
             Text(
-                text = state.synopsis,
+                text = book.synopsis,
                 fontSize = 12.sp,
                 lineHeight = 14.sp,
             )
@@ -140,30 +150,11 @@ fun BookDetail(
     }
 }
 
-data class BookDetailState(
-    val isbn: String,
-    val coverUrl: URL,
-    val title: String,
-    val price: BigDecimal,
-    val synopsis: String,
-) {
-    companion object {
-        fun from(book: Book): BookDetailState {
-            return BookDetailState(
-                isbn = book.isbn,
-                coverUrl = book.coverUrl,
-                title = book.title,
-                price = book.price,
-                synopsis = book.synopsis,
-            )
-        }
-    }
-}
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    val state = BookDetailState(
+    val state = Book(
         isbn = "a460afed-e5e7-4e39-a39d-c885c05db861",
         coverUrl = URL("https://firebasestorage.googleapis.com/v0/b/henri-potier.appspot.com/o/hp1.jpg?alt=media"),
         title = "Henri Potier et la Chambre des secrets",

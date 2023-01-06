@@ -13,18 +13,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fr.henri.potech.bookshop.domain.Book
 import fr.henri.potech.bookshop.ui.components.BookCover
-import java.math.BigDecimal
-import java.net.URL
 
 @Composable
 fun BookCard(
-    state: BookCardState,
+    book: Book,
     modifier: Modifier = Modifier,
-    onClick: (String) -> Unit = {}
+    onClick: (Book) -> Unit = {}
 ) {
     Box(
         modifier = modifier
-            .clickable { onClick(state.isbn) },
+            .clickable { onClick(book) },
     ) {
         Column(
             modifier = Modifier
@@ -32,16 +30,16 @@ fun BookCard(
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             BookCover(
-                url = state.coverUrl,
+                url = book.coverUrl,
             )
             Text(
-                text = state.title,
+                text = book.title,
                 fontSize = 12.sp,
                 lineHeight = 14.sp,
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = "$${state.price}",
+                text = "$${book.price}",
                 fontSize = 10.sp,
                 lineHeight = 11.sp
             )
@@ -49,20 +47,3 @@ fun BookCard(
     }
 }
 
-data class BookCardState(
-    val isbn: String,
-    val coverUrl: URL,
-    val title: String,
-    val price: BigDecimal
-) {
-    companion object {
-        fun from(book: Book): BookCardState {
-            return BookCardState(
-                isbn = book.isbn,
-                coverUrl = book.coverUrl,
-                title = book.title,
-                price = book.price,
-            )
-        }
-    }
-}

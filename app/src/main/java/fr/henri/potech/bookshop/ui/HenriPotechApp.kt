@@ -1,6 +1,7 @@
 package fr.henri.potech.bookshop.ui
 
 import androidx.compose.runtime.Composable
+import fr.henri.potech.bookshop.ui.cart.BottomCartSheetScaffold
 import fr.henri.potech.bookshop.ui.home.BookList
 import fr.henri.potech.bookshop.ui.theme.BookShopTheme
 
@@ -20,6 +21,8 @@ fun HenriPotechApp() {
 //    }
 
     BookShopTheme {
-        BookList()
+        BottomCartSheetScaffold {
+            BookList()
+        }
     }
 }
