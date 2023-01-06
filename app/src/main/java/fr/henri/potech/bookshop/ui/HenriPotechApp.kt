@@ -21,8 +21,8 @@ fun HenriPotechApp() {
 //    }
 
     BookShopTheme {
-        BottomCartSheetScaffold {
-            BookList()
+        BottomCartSheetScaffold { sheetPadding ->
+            BookList(contentPadding = sheetPadding)
         }
     }
 }

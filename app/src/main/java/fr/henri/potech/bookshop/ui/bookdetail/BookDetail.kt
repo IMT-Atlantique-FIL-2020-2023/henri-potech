@@ -1,10 +1,10 @@
 package fr.henri.potech.bookshop.ui.bookdetail
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material3.*
@@ -12,11 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import fr.henri.potech.bookshop.R
 import fr.henri.potech.bookshop.domain.Book
 import fr.henri.potech.bookshop.ui.cart.BottomCartSheetScaffold
@@ -26,12 +27,10 @@ import fr.henri.potech.bookshop.ui.theme.BookShopTheme
 import java.math.BigDecimal
 import java.net.URL
 
-class BookDetailActivity(
-) : ComponentActivity() {
+class BookDetailActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
             this.intent?.extras?.getParcelable<Book>("book")?.let { book ->
                 BookShopTheme {
                     BookDetailScreen(book)
@@ -41,111 +40,108 @@ class BookDetailActivity(
     }
 }
 
-
 @Composable
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
-fun BookDetailScreen(book: Book, cartModel: CartViewModel = CartViewModel.getInstance()) {
-    BottomCartSheetScaffold {
-        Scaffold(
-            topBar = {
-                CenterAlignedTopAppBar(
-                    title = { Text(stringResource(R.string.title_activity_book_detail)) },
-//                actions = {
-//                    IconButton(
-//                        onClick = {},
-//                    ) {
-//                        Icon(
-//                            imageVector = Icons.TwoTone.ShoppingCart,
-//                            contentDescription = "Add to cart"
-//                        )
-//                    }
-//                },
-                )
-            },
-        ) { innerPadding ->
-            Box(Modifier.padding(innerPadding)) {
-                BookDetail(
-                    book
-                ) { cartModel.addToCart(book) }
-            }
-        }
+fun BookDetailScreen(
+    book: Book,
+    cartModel: CartViewModel = CartViewModel.getInstance(),
+) {
+    BottomCartSheetScaffold { sheetPadding ->
+        BookDetail(
+            book = book,
+            contentPadding = sheetPadding,
+            addToCart = { cartModel.addToCart(book) },
+        )
     }
-
 }
 
 @Composable
 fun BookDetail(
     book: Book,
-    addToCart: (isbn: String) -> Unit = {}
+    contentPadding: PaddingValues = PaddingValues(),
+    addToCart: (isbn: String) -> Unit = {},
 ) {
-    Column(
+    LazyColumn(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement
+            .spacedBy(dimensionResource(R.dimen.book_detail_section_spacing)),
+        contentPadding = contentPadding,
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            BookCover(
-                url = book.coverUrl,
-                modifier = Modifier
-                    .height(256.dp),
-            )
-            Text(
-                text = book.title,
-                fontSize = 18.sp,
-                lineHeight = 20.sp,
-                fontWeight = FontWeight.Bold,
-            )
-            Text(
-                text = "ISBN : ${book.isbn}",
-                fontSize = 14.sp,
-                lineHeight = 16.sp,
-                color = Color.Gray,
-            )
-            Text(
-                text = "${book.price} €",
-                fontSize = 14.sp,
-                lineHeight = 16.sp,
-            )
-        }
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
-            Button(
-                onClick = { addToCart(book.isbn) },
-                contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
+        val modifier = Modifier.padding(horizontal = 12.dp)
+        item {
+            // Header
+            Column(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                verticalArrangement = Arrangement
+                    .spacedBy(dimensionResource(R.dimen.book_detail_subsection_spacing)),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Icon(
-                    imageVector = Icons.Outlined.ShoppingCart,
-                    contentDescription = "Add to cart",
-                    modifier = Modifier.size(ButtonDefaults.IconSize),
+                BookCover(
+                    url = book.coverUrl,
+                    modifier = Modifier
+                        .height(dimensionResource(R.dimen.book_detail_cover_height)),
                 )
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                Text("Add to cart")
+                Text(
+                    text = book.title,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                )
+                Text(
+                    text = "ISBN : ${book.isbn}",
+                    style = MaterialTheme.typography.labelLarge,
+                    textAlign = TextAlign.Center,
+                    color = Color.Gray,
+                )
+                Text(
+                    text = "${book.price} €",
+                    style = MaterialTheme.typography.labelLarge,
+                    textAlign = TextAlign.Center,
+                )
             }
         }
-        Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-            horizontalAlignment = Alignment.Start,
-        ) {
-            Text(
-                text = "Synopsis",
-                fontSize = 16.sp,
-                lineHeight = 18.sp,
-                fontWeight = FontWeight.Bold,
-            )
-            Text(
-                text = book.synopsis,
-                fontSize = 12.sp,
-                lineHeight = 14.sp,
-            )
+        item {
+            // "Add to cart" button
+            Box(
+                modifier = modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Button(
+                    onClick = { addToCart(book.isbn) },
+                    contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.ShoppingCart,
+                        contentDescription = stringResource(R.string.add_to_cart_action),
+                        modifier = Modifier.size(ButtonDefaults.IconSize),
+                    )
+                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                    Text(stringResource(R.string.add_to_cart_action))
+                }
+            }
+        }
+        item {
+            // Synopsis
+            Column(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp),
+                verticalArrangement = Arrangement
+                    .spacedBy(dimensionResource(R.dimen.book_detail_subsection_spacing)),
+                horizontalAlignment = Alignment.Start,
+            ) {
+                Text(
+                    text = stringResource(R.string.book_detail_synopsis_header),
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold,
+                )
+                Text(
+                    text = book.synopsis,
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
         }
     }
 }

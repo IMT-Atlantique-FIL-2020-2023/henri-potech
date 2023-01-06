@@ -1,15 +1,17 @@
 package fr.henri.potech.bookshop.ui.cart
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
+import fr.henri.potech.bookshop.R
 import fr.henri.potech.bookshop.ui.cart.bottom_sheets_scaffold.BottomSheetScaffold
 import fr.henri.potech.bookshop.ui.cart.bottom_sheets_scaffold.BottomSheetValue
 import fr.henri.potech.bookshop.ui.cart.bottom_sheets_scaffold.rememberBottomSheetScaffoldState
@@ -23,32 +25,35 @@ fun BottomCartSheetScaffold(content: @Composable (PaddingValues) -> Unit) {
             initialValue = BottomSheetValue.Collapsed
         )
     )
+    val sheetCornerRadius = dimensionResource(id = R.dimen.cart_sheet_corner_radius)
     BottomSheetScaffold(
         sheetShape = RoundedCornerShape(
-            topStart = 28.0.dp, topEnd = 28.0.dp, bottomEnd = 0.0.dp, bottomStart = 0.0.dp
+            topStart = sheetCornerRadius,
+            topEnd = sheetCornerRadius,
         ),
-        sheetPeekHeight = 80.dp,
+        sheetPeekHeight = dimensionResource(id = R.dimen.cart_sheet_peek_height),
         sheetBackgroundColor = MaterialTheme.colorScheme.surfaceVariant,
         sheetContent = {
-            // The content you want to show in your bottom sheet
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentSize(Alignment.Center)
-                    .padding(top = 5.dp), horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+            Box {
                 Box(
                     modifier = Modifier
-                        .size(40.dp, 3.dp)
-                        .border(
-                            width = 2.dp, color = Color.LightGray, shape = RoundedCornerShape(5.dp)
-                        )
+                        .padding(5.dp)
+                        .align(Alignment.TopCenter)
+                ) {
+                    Surface(
+                        modifier = Modifier
+                            .height(3.dp)
+                            .width(40.dp),
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(percent = 50),
+                    ) {}
+                }
+                BottomSheetContent(
+                    modifier = Modifier
+                        .padding(horizontal = dimensionResource(id = R.dimen.cart_sheet_padding)),
                 )
-                BottomSheetContent()
             }
-
         },
-
         scaffoldState = bottomSheetScaffoldState
     ) {
         content(it)
@@ -56,10 +61,8 @@ fun BottomCartSheetScaffold(content: @Composable (PaddingValues) -> Unit) {
 }
 
 @Composable
-fun BottomSheetContent() {
-    Column(
-        modifier = Modifier.padding(top = 16.dp, start = 24.dp, end = 24.dp, bottom = 24.dp),
-    ) {
+fun BottomSheetContent(modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
         CartHeader()
         CartItems()
     }

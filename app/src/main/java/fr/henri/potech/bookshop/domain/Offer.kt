@@ -15,6 +15,10 @@ data class Percentage(
     override fun apply(total: BigDecimal): BigDecimal {
         return total * (BigDecimal(1) - this.value)
     }
+
+    override fun toString(): String {
+        return "-${value.toDouble() * 100}%"
+    }
 }
 
 /**
@@ -25,6 +29,10 @@ data class Minus(
 ) : Offer {
     override fun apply(total: BigDecimal): BigDecimal {
         return total - this.value
+    }
+
+    override fun toString(): String {
+        return "-$value €"
     }
 }
 
@@ -40,5 +48,9 @@ data class Slice(
         } else {
             total
         }
+    }
+
+    override fun toString(): String {
+        return "-$value € from $sliceValue €"
     }
 }

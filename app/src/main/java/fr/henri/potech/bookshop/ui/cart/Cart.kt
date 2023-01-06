@@ -9,10 +9,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import fr.henri.potech.bookshop.R
 import fr.henri.potech.bookshop.domain.Book
 import fr.henri.potech.bookshop.domain.Cart
 import fr.henri.potech.bookshop.ui.components.BookCover
@@ -47,10 +49,12 @@ fun CartTotal(cartModel: CartViewModel = CartViewModel.getInstance()) {
     ) {
         Column {
             Text(
-                text = cart.total.toRidePrice(), style = MaterialTheme.typography.titleLarge
+                text = cart.total.toRidePrice(),
+                style = MaterialTheme.typography.titleLarge,
             )
             Text(
-                text = "${cart.books.size} items", style = MaterialTheme.typography.labelSmall
+                text = "${cart.books.size} item${if (cart.books.size > 1) "s" else ""}",
+                style = MaterialTheme.typography.labelSmall,
             )
         }
     }
@@ -66,8 +70,11 @@ fun CartHeader(cartModel: CartViewModel = CartViewModel.getInstance()) {
         )
     }
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(dimensionResource(id = R.dimen.cart_sheet_peek_height)),
         horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         val cart = cartModel.cart.collectAsState(initial = Cart()).value
         CartTotal()
@@ -115,21 +122,24 @@ fun CartItems(cartModel: CartViewModel = CartViewModel.getInstance()) {
 
     LazyColumn(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 24.dp),
+            .fillMaxWidth(),
+        contentPadding = PaddingValues(bottom = dimensionResource(id = R.dimen.cart_sheet_padding))
     ) {
-        item {
-            Divider()
-        }
-        itemsIndexed(items = cart.value.books, key = { _, book -> book.uuid }) { index, book ->
-            Box(
+        itemsIndexed(
+            items = cart.value.books,
+            key = { _, book -> book.uuid },
+        ) { index, book ->
+            val isFirst = index == 0
+            val isLast = index == cart.value.books.size - 1
+            CartItem(
+                book = book,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp, bottom = 12.dp)
-            ) {
-                CartItem(book)
-            }
-            if (index != cart.value.books.size - 1) {
+                    .padding(
+                        top = if (isFirst) 0.dp else 12.dp,
+                        bottom = if (isLast) 0.dp else 12.dp,
+                    ),
+            )
+            if (!isLast) {
                 Divider()
             }
         }
@@ -137,15 +147,18 @@ fun CartItems(cartModel: CartViewModel = CartViewModel.getInstance()) {
 }
 
 @Composable
-fun CartItem(book: Book) {
+fun CartItem(
+    book: Book,
+    modifier: Modifier = Modifier,
+) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         shape = RectangleShape,
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             BookCover(url = book.coverUrl, modifier = Modifier.height(40.dp))
             Text(

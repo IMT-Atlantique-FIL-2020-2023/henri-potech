@@ -27,7 +27,7 @@ data class Cart(
                 is OfferTypeDTO.Slice -> Slice(offer.sliceValue, offer.value)
             }
         }
-        return availableOffers.map { Pair(it.apply(total), it.javaClass.name) }
+        return availableOffers.map { Pair(it.apply(total), it.toString()) }
             .minByOrNull { it.first }!!
     }
 }
