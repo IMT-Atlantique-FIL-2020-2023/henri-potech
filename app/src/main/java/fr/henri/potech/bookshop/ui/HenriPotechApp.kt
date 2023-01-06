@@ -1,16 +1,8 @@
 package fr.henri.potech.bookshop.ui
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import fr.henri.potech.bookshop.ui.home.BookCardState
-import fr.henri.potech.bookshop.ui.home.BookListActivity
+import fr.henri.potech.bookshop.ui.home.BookList
 import fr.henri.potech.bookshop.ui.theme.BookShopTheme
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import java.math.BigDecimal
-
-
 
 @Composable
 fun HenriPotechApp() {
@@ -28,6 +20,6 @@ fun HenriPotechApp() {
 //    }
 
     BookShopTheme {
-        BookListActivity()
+        BookList()
     }
 }

@@ -13,7 +13,7 @@ data class Library(val books: List<Book>) {
                     title = book.title,
                     isbn = book.isbn,
                     synopsis = book.synopsis.joinToString(""),
-                    price = BigDecimal(book.price)
+                    price = book.price
                 )
             })
         }

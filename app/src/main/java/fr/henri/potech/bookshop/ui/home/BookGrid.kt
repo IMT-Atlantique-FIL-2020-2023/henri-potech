@@ -13,14 +13,22 @@ import androidx.compose.ui.unit.dp
 import java.math.BigDecimal
 
 @Composable
-fun BookGrid(books: List<BookCardState>) {
+fun BookGrid(
+    cardStates: List<BookCardState>,
+    onClick: (String) -> Unit = {},
+) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 128.dp),
-        contentPadding = PaddingValues(4.dp),
-        horizontalArrangement = Arrangement.SpaceEvenly
+        modifier = Modifier.padding(4.dp),
+//        contentPadding = PaddingValues(4.dp),
+//        horizontalArrangement = Arrangement.SpaceEvenly,
     ) {
-        items(books) { book ->
-            BookCard(book, modifier = Modifier.padding(8.dp))
+        items(cardStates) { cardState ->
+            BookCard(
+                state = cardState,
+                modifier = Modifier.padding(4.dp),
+                onClick = onClick,
+            )
         }
     }
 }
@@ -29,6 +37,12 @@ fun BookGrid(books: List<BookCardState>) {
 @Composable
 fun BookGridPreview() {
     val books = (1..50).toList()
-        .map { i -> BookCardState("Title $i", BigDecimal(10 * i % 40 + 2)) }
+        .map { i ->
+            BookCardState(
+                isbn = "$i",
+                title = "Title $i",
+                price = BigDecimal(10 * i % 40 + 2),
+            )
+        }
     BookGrid(books)
 }

@@ -1,37 +1,62 @@
 package fr.henri.potech.bookshop.ui.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import fr.henri.potech.bookshop.domain.Book
 import fr.henri.potech.bookshop.ui.BookCover
 import java.math.BigDecimal
 
 @Composable
-fun BookCard(book: BookCardState, modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+fun BookCard(
+    state: BookCardState,
+    modifier: Modifier = Modifier,
+    onClick: (String) -> Unit = {}
+) {
+    Box(
+        modifier = modifier
+            .clickable { onClick(state.isbn) },
     ) {
-        BookCover()
-        Text(
-            text = book.title,
-            fontSize = 12.sp,
-            lineHeight = 14.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            text = "$${book.price}",
-            fontSize = 10.sp,
-            lineHeight = 11.sp
-        )
+        Column(
+            modifier = Modifier
+                .padding(4.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+        ) {
+            BookCover()
+            Text(
+                text = state.title,
+                fontSize = 12.sp,
+                lineHeight = 14.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = "$${state.price}",
+                fontSize = 10.sp,
+                lineHeight = 11.sp
+            )
+        }
     }
 }
 
 data class BookCardState(
+    val isbn: String,
     val title: String,
     val price: BigDecimal
-)
+) {
+    companion object {
+        fun from(book: Book) : BookCardState {
+            return BookCardState(
+                isbn = book.isbn,
+                title = book.title,
+                price = book.price,
+            )
+        }
+    }
+}
