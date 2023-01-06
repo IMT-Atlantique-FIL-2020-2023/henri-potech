@@ -1,5 +1,6 @@
 package fr.henri.potech.bookshop.ui.cart
 
+import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,7 +15,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import fr.henri.potech.bookshop.domain.Book
 import fr.henri.potech.bookshop.domain.Cart
@@ -22,22 +22,44 @@ import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun CartTotal(cartModel: CartViewModel = viewModel()) {
+fun CartTotal(cartModel: CartViewModel = CartViewModel.getInstance()) {
     val cart = cartModel.cart.collectAsState(initial = Cart()).value
-
-    Column {
-        Text(
-            text = cart.total.toRidePrice(), style = MaterialTheme.typography.titleLarge
-        )
-        Text(
-            text = "${cart.books.size} items", style = MaterialTheme.typography.labelSmall
-        )
+    AnimatedContent(
+        targetState = cart.books.size,
+        transitionSpec = {
+            // Compare the incoming number with the previous number.
+            if (targetState > initialState) {
+                // If the target number is larger, it slides up and fades in
+                // while the initial (smaller) number slides up and fades out.
+                slideInVertically { height -> height } + fadeIn() with
+                        slideOutVertically { height -> -height } + fadeOut()
+            } else {
+                // If the target number is smaller, it slides down and fades in
+                // while the initial number slides down and fades out.
+                slideInVertically { height -> -height } + fadeIn() with
+                        slideOutVertically { height -> height } + fadeOut()
+            }.using(
+                // Disable clipping since the faded slide-in/out should
+                // be displayed out of bounds.
+                SizeTransform(clip = false)
+            )
+        }
+    ) {
+        Column {
+            Text(
+                text = cart.total.toRidePrice(), style = MaterialTheme.typography.titleLarge
+            )
+            Text(
+                text = "${cart.books.size} items", style = MaterialTheme.typography.labelSmall
+            )
+        }
     }
 }
 
 @Composable
-fun CartHeader(cartModel: CartViewModel = viewModel()) {
+fun CartHeader(cartModel: CartViewModel = CartViewModel.getInstance()) {
     val coroutineScope = rememberCoroutineScope()
     val (isLoading, setIsLoading) = remember { mutableStateOf(false) }
     val (bestPricePair, setBestPricePair) = remember {
@@ -90,7 +112,7 @@ fun CartHeader(cartModel: CartViewModel = viewModel()) {
 }
 
 @Composable
-fun CartItems(cartModel: CartViewModel = viewModel()) {
+fun CartItems(cartModel: CartViewModel = CartViewModel.getInstance()) {
     val cart = cartModel.cart.collectAsState(initial = Cart())
 
     LazyColumn(
