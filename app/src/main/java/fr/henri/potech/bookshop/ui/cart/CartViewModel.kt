@@ -9,11 +9,20 @@ import kotlinx.coroutines.flow.update
 
 class CartViewModel : ViewModel() {
     val cart = MutableStateFlow(Cart())
-
     fun addToCart(book: Book) {
         cart.update {
             it.copy(
                 books = it.books + book.copy(uuid = book.uuid + Math.random().toString()),
+            )
+        }
+    }
+
+    fun removeBook(book: Book) {
+        cart.update { it ->
+            it.copy(
+                books = it.books.filter {
+                    it.uuid != book.uuid
+                },
             )
         }
     }

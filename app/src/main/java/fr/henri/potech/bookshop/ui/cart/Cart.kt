@@ -127,7 +127,7 @@ fun CartItems(cartModel: CartViewModel = CartViewModel.getInstance()) {
                     .fillMaxWidth()
                     .padding(top = 12.dp, bottom = 12.dp)
             ) {
-                CartItem(book)
+                CartItem(book, onClick = { cartModel.removeBook(book) })
             }
             if (index != cart.value.books.size - 1) {
                 Divider()
@@ -136,11 +136,13 @@ fun CartItems(cartModel: CartViewModel = CartViewModel.getInstance()) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CartItem(book: Book) {
-    Card(
+fun CartItem(book: Book, onClick: () -> Unit) {
+        Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RectangleShape,
+            onClick = { onClick() },
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
