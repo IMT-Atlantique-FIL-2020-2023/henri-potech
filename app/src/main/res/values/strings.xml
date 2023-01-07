@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">Book Shop</string>
+    <string name="app_name">Book Shop (BARDON/SASSI)</string>
     <string name="title_activity_book_list">BookListActivity</string>
-    <string name="title_activity_cart_example">CartExample</string>
+    <string name="title_activity_cart_example">Cart</string>
     <string name="title_activity_book_detail">Book details</string>
+    <string name="book_detail_synopsis_header">Synopsis</string>
+    <string name="add_to_cart_action">Add to cart</string>
 </resources>

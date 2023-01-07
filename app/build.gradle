@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'fr.henri.potech.bookshop'
+    namespace 'fr.bardon_sassi.bookshop'
     compileSdk 33
 
     defaultConfig {
-        applicationId "fr.henri.potech.bookshop"
+        applicationId "fr.bardon_sassi.bookshop"
         minSdk 29
         targetSdk 32
         versionCode 1
