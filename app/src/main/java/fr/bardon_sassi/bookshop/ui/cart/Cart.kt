@@ -138,9 +138,8 @@ fun CartItems(cartModel: CartViewModel = CartViewModel.getInstance()) {
                         top = if (isFirst) 0.dp else 12.dp,
                         bottom = if (isLast) 0.dp else 12.dp,
                     ),
-            ) {
-                CartItem(book, onClick = { cartModel.removeBook(book) })
-            }
+                onClick = { cartModel.removeBook(book) },
+            )
             if (!isLast) {
                 Divider()
             }
